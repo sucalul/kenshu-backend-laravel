@@ -10,11 +10,10 @@ services:
       dockerfile: ./infra/db/Dockerfile
     container_name: "kenshu-backend-laravel-db"
     environment:
-      - MYSQL_DATABASE=${DATABASE}
-      - MYSQL_USER=${USERNAME}
-      - MYSQL_PASSWORD=${PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${PASSWORD}
-      - TZ=${TZ}
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
     volumes:
       - mysql-volume:/var/lib/mysql
     ports:
