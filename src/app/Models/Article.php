@@ -16,10 +16,16 @@ class Article extends Model
      * @var array<int, string>
      */
     protected $table = 'articles';
+
     protected $fillable = [
         'title',
         'body',
         'user_id',
         'thumbnail_image_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

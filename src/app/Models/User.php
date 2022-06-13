@@ -32,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Article');
+    }
 }
