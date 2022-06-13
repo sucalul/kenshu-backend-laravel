@@ -7,7 +7,7 @@
 <body>
 <h1>Signup</h1>
 @include('session')
-@if($errors))
+@if($errors)
     <ul class="error_list">
         @foreach ($errors->all() as $error)
             <li style="color:red">{{ $error }}</li>
