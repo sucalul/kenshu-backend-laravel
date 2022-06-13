@@ -7,14 +7,12 @@
 <body>
 <h1>Signup</h1>
 @include('session')
-@if(count($errors) > 0)
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+@if($errors))
+    <ul class="error_list">
+        @foreach ($errors->all() as $error)
+            <li style="color:red">{{ $error }}</li>
+        @endforeach
+    </ul>
 @endif
 
 <form action="/auth/signup" method="post" enctype="multipart/form-data">

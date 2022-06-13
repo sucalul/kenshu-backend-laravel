@@ -32,6 +32,8 @@ class AuthController extends Controller
             'password' => ['required'],
         ];
         $this->validate($request, $rules);
+
+        $email = $request->get('email');
         // 画像がない時はデフォルトで1入れる
         if (empty($_FILES['profile_image']['name'])) {
             $profile_resource_id = 1;
@@ -44,14 +46,14 @@ class AuthController extends Controller
 
         User::create([
             'name' => $request->get('name'),
-            'email' => $request->get('email'),
+            'email' => $email,
             'password' => password_hash($request->get('password'), PASSWORD_DEFAULT),
             'profile_resource_id' => $profile_resource_id,
         ]);
 
         // sessionに$emailを入れる
         // これをみてログインしてるか確認する
-        session(['EMAIL' => $request->get('email')]);
+        session(['EMAIL' => $email]);
         return redirect('/articles');
     }
 }
