@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
+use App\Models\User;
+use App\Http\Requests\SignupRequest;
 class AuthController extends Controller
 {
     /**
@@ -21,19 +22,13 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \App\Http\Requests\SignupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SignupRequest $request)
     {
-        $rules = [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
-            'password' => ['required'],
-        ];
-        $this->validate($request, $rules);
-
         $email = $request->get('email');
+        $password = $request->get('password');
         // 画像がない時はデフォルトで1入れる
         if (empty($_FILES['profile_image']['name'])) {
             $profile_resource_id = 1;
@@ -47,13 +42,19 @@ class AuthController extends Controller
         User::create([
             'name' => $request->get('name'),
             'email' => $email,
-            'password' => password_hash($request->get('password'), PASSWORD_DEFAULT),
+            'password' => password_hash($password, PASSWORD_DEFAULT),
             'profile_resource_id' => $profile_resource_id,
         ]);
 
-        // sessionに$emailを入れる
-        // これをみてログインしてるか確認する
-        session(['EMAIL' => $email]);
-        return redirect('/articles');
+        $credentials = ['email' => $email, 'password' => $password];
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect('/articles');
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 }
