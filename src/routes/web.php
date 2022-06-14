@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,5 @@ use App\Http\Controllers\ArticleController;
 */
 
 Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/auth/signup', [AuthController::class, 'new']);
+Route::post('/auth/signup', [AuthController::class, 'signup']);
