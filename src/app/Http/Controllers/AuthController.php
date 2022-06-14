@@ -13,9 +13,8 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function signupIndex()
+    public function new()
     {
-        //
         return view('signup');
     }
 
@@ -25,18 +24,18 @@ class AuthController extends Controller
      * @param \App\Http\Requests\SignupRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SignupRequest $request)
+    public function signup(SignupRequest $request)
     {
         $email = $request->get('email');
         $password = $request->get('password');
         // 画像がない時はデフォルトで1入れる
-        if (empty($_FILES['profile_image']['name'])) {
+        if (empty($request->file('profile_image'))) {
             $profile_resource_id = 1;
         } else {
             $profile_resource_id = uniqid();
             $uploaded_path = 'img/users/' . $profile_resource_id . '.png';
             // fileの移動
-            move_uploaded_file($_FILES['profile_image']['tmp_name'], $uploaded_path);
+            move_uploaded_file($request->file('profile_image'), $uploaded_path);
         }
 
         User::create([

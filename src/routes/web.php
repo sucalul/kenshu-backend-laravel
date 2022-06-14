@@ -17,5 +17,5 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/auth/signup', [AuthController::class, 'signupIndex']);
-Route::post('/auth/signup', [AuthController::class, 'store']);
+Route::get('/auth/signup', [AuthController::class, 'new']);
+Route::post('/auth/signup', [AuthController::class, 'signup']);
