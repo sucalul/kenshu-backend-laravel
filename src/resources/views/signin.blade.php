@@ -5,16 +5,11 @@
     <title>記事</title>
 </head>
 <body>
-<h1>Signup</h1>
+<h1>Signin</h1>
 @include('error')
 
-<form action="/auth/signup" method="post" enctype="multipart/form-data">
+<form action="/auth/signin" method="post">
     @csrf
-    <div>
-        <label for="name">名前</label>
-        <input type="text" name="name" required>
-    </div>
-
     <div>
         <label for="email">メールアドレス</label>
         <input type="email" name="email" required>
@@ -24,12 +19,7 @@
         <label for="password">パスワード</label>
         <input type="password" name="password" required>
     </div>
-
-    <div>
-        <label for="profile_image">プロフィール画像</label>
-        <input type="file" name="profile_image">
-    </div>
-    <input type="submit" name="submit" value="Sign Up" >
+    <input type="submit" name="submit" value="Sign In" >
 </form>
 </body>
 </html>

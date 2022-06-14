@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
+use App\Http\Requests\SigninRequest;
 use App\Http\Requests\SignupRequest;
+
 class AuthController extends Controller
 {
     /**
@@ -13,7 +15,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function new()
+    public function newSignup()
     {
         return view('signup');
     }
@@ -54,6 +56,27 @@ class AuthController extends Controller
 
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function newSignin()
+    {
+        return view('signin');
+    }
+
+    public function signin(SigninRequest $request){
+        $credentials = [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect('/articles');
+        }
+
+        return back()->withErrors([
+            'email' => 'メールアドレスかパスワードが間違っています。',
         ]);
     }
 }
