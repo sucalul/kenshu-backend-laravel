@@ -15,7 +15,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function newSignup()
+    public function viewSignup()
     {
         return view('signup');
     }
@@ -59,7 +59,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function newSignin()
+    public function viewSignin()
     {
         return view('signin');
     }
