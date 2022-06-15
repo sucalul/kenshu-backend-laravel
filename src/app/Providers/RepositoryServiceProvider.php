@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Providers;
+
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\ServiceProvider;
+
+
+class RepositoryServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->bind(\App\Services\ArticleDataAccess::class, function ($app) {
+            return new \App\Repositories\CreateArticleRepository(
+                new \App\Models\Article,
+                // new \App\Models\ArticleImage,
+                // new \App\Models\Tag,
+            );
+        });
+
+    }
+
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
+    }
+}

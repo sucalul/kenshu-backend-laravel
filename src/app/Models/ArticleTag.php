@@ -5,8 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class Article extends Model
+class ArticleTag extends Model
 {
     use HasFactory;
 
@@ -15,22 +14,21 @@ class Article extends Model
      *
      * @var array<int, string>
      */
-    protected $table = 'articles';
+    protected $table = 'article_tags';
 
     protected $fillable = [
-        'title',
-        'body',
-        'user_id',
-        'thumbnail_image_id',
+        'article_id',
+        'tag_id'
     ];
 
-    public function user()
+    public function article()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\Article');
     }
 
-    public function images()
+    public function tag()
     {
-        return $this->hasMany('App\Models\ArticleImage');
+        return $this->belongsTo('App\Models\Tag');
     }
+
 }
