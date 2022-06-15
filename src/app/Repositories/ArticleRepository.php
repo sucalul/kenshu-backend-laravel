@@ -2,14 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Repositories\ArticleRepositoryInterface;
-use App\Models\Article AS ArticleModel;
+use App\Entities\ArticleDetailEntity;
+use App\Models\Article as ArticleModel;
 
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
-    protected $ArticleModel;
-
+    protected ArticleModel $ArticleModel;
 
     public function __construct(
         ArticleModel $ArticleModel,
@@ -31,7 +30,9 @@ class ArticleRepository implements ArticleRepositoryInterface
         ]);
     }
 
-    public function findById(int $id) {
-        // TODO: 記事詳細を作る時に書く
+    public function findById(int $id): ArticleDetailEntity
+    {
+        $article = ArticleModel::with(['user'])->get()->find($id);
+        return new ArticleDetailEntity($article);
     }
 }

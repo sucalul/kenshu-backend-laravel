@@ -20,6 +20,7 @@ use App\Http\Controllers\AuthController;
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/new', [ArticleController::class, 'new']);
 Route::post('/articles', [ArticleController::class, 'create']);
+Route::get('/articles/{id}', [ArticleController::class, 'show']);
 
 // Auth
 Route::get('/auth/signup', [AuthController::class, 'viewSignup']);
