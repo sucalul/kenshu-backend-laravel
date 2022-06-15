@@ -35,7 +35,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles/create', ['tags' => $tags]);
+        return view('articles/create');
     }
 
     /**
@@ -62,7 +62,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return view('articles/show');
+        //
     }
 
     /**
