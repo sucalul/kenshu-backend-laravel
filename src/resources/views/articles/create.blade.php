@@ -7,7 +7,7 @@
 <body>
 @include('error')
 
-<form action="/articles/create" method="post" enctype="multipart/form-data" name="postForm">
+<form action="/articles" method="post" enctype="multipart/form-data" name="postForm">
     @csrf
     <div>
         <label class="title" for="title">タイトル</label>

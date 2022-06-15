@@ -18,8 +18,8 @@ use App\Http\Controllers\AuthController;
 
 // Article
 Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/articles/create', [ArticleController::class, 'create']);
-Route::post('/articles/create', [ArticleController::class, 'store']);
+Route::get('/articles/new', [ArticleController::class, 'new']);
+Route::post('/articles', [ArticleController::class, 'create']);
 
 // Auth
 Route::get('/auth/signup', [AuthController::class, 'viewSignup']);

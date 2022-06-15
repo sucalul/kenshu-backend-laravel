@@ -33,7 +33,7 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function new()
     {
         return view('articles/create');
     }
@@ -44,7 +44,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateArticleRequest $request)
+    public function create(CreateArticleRequest $request)
     {
         $this->ArticleService->create(
             user_id: $request->user()->id,
