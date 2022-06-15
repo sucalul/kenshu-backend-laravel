@@ -17,6 +17,6 @@
     </form>
     <p>-------------------------</p>
 @endforeach
-<button type="button" onclick="location.href='/articles/create'">新規作成</button>
+<button type="button" onclick="location.href='/articles/new'">新規作成</button>
 </body>
 </html>

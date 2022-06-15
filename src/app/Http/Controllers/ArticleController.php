@@ -4,10 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\CreateArticleRequest;
 use App\Models\Article;
+use App\Services\ArticleService;
+
 
 class ArticleController extends Controller
 {
+    private ArticleService $ArticleService;
+
+    public function __construct(ArticleService $ArticleService) {
+        $this->ArticleService = $ArticleService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,9 +33,9 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function new()
     {
-        //
+        return view('articles/create');
     }
 
     /**
@@ -35,9 +44,14 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function create(CreateArticleRequest $request)
     {
-        //
+        $this->ArticleService->create(
+            user_id: $request->user()->id,
+            title: $request->get('title'),
+            body: $request->get('body'),
+        );
+        return redirect('/articles');
     }
 
     /**
