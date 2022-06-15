@@ -10,8 +10,8 @@
     <h3>{{ $article->title }}</h3>
     <h3>{{ $article->body }}</h3>
 
-    <a href="/articles/<{{$article->id}}/update">Edit</a>
-    <form action="/articles/<{{$article->id}}/delete" method="post">
+    <a href="/articles/{{ $article->id }}/edit">Edit</a>
+    <form action="/articles/{{ $article->id }}" method="post">
         @csrf
         <button type="submit">Delete</button>
     </form>
