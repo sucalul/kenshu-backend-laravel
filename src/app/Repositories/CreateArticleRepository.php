@@ -2,13 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\DB;
-
-use App\Entities\CreateArticleEntity;
 use App\Services\ArticleDataAccess;
 use App\Models\Article AS ArticleModel;
-use App\Models\ArticleImage AS ArticleImageModel;
-use App\Models\Tag AS TagModel;
 
 
 class CreateArticleRepository implements ArticleDataAccess

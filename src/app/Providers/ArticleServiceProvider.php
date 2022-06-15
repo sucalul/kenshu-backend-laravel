@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\ArticleDataAccess;
 use App\Services\ArticleService;
 use Illuminate\Support\ServiceProvider;
 
