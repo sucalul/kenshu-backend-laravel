@@ -18,8 +18,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Services\ArticleDataAccess::class, function ($app) {
             return new \App\Repositories\CreateArticleRepository(
                 new \App\Models\Article,
-                // new \App\Models\ArticleImage,
-                // new \App\Models\Tag,
             );
         });
 

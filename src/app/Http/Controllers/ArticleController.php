@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\ArticleCreateRequest;
 use App\Models\Article;
-use App\Models\Tag;
 use App\Services\ArticleService;
 
 
@@ -36,7 +35,6 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $tags = Tag::all();
         return view('articles/create', ['tags' => $tags]);
     }
 
@@ -48,36 +46,12 @@ class ArticleController extends Controller
      */
     public function store(ArticleCreateRequest $request)
     {
-//        $resources = array();
-//        $thumbnail_resource = '';
-//        for ($i = 0; $i < count($request->get('resources')); $i++) {
-//            $resource = uniqid();
-//            $resources[] = $resource;
-//
-//            if ($request->has('is-thumbnail') && $request->get('is-thumbnail') == $request->file('resources')[$i]) {
-//                $thumbnail_resource = $resource;
-//                $index = array_search($thumbnail_resource, $resources);
-//                array_splice($resources, $index, 1);
-//            }
-//            // upload先指定
-//            $uploaded_path = 'img/' . $resource . '.png';
-//            // fileの移動
-//            move_uploaded_file($request->file('resources')[$i], $uploaded_path);
-//        }
-//        if (empty($thumbnail_resource)) {
-//            $thumbnail_resource = current($resources);
-//            $index = array_search($thumbnail_resource, $resources);
-//            array_splice($resources, $index, 1);
-//        }
-
         $this->ArticleService->create(
             user_id: $request->user()->id,
             title: $request->get('title'),
             body: $request->get('body'),
-//            resources: $resources,
-//            thumbnail_resource: $thumbnail_resource,
-//            tags: $request->get('tags')
         );
+        return redirect('/articles');
     }
 
     /**

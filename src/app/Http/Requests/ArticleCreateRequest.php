@@ -26,8 +26,6 @@ class ArticleCreateRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['required'],
-            // 'is_thumbnail' => ['nullable'],
-            // 'images[]' => ['nullable', 'multiple_of:images'],
         ];
     }
 }

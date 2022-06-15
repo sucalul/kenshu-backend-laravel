@@ -8,8 +8,5 @@ interface ArticleDataAccess
         int $user_id,
         string $title,
         string $body,
-//        array $resources,
-//        string $thumbnail_resource,
-//        array $tags
     );
 }
