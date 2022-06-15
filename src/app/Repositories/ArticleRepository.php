@@ -6,7 +6,7 @@ use App\Repositories\ArticleRepositoryInterface;
 use App\Models\Article AS ArticleModel;
 
 
-class CreateArticleRepository implements ArticleRepositoryInterface
+class ArticleRepository implements ArticleRepositoryInterface
 {
     protected $ArticleModel;
 
@@ -29,5 +29,9 @@ class CreateArticleRepository implements ArticleRepositoryInterface
             'title' => $title,
             'body' => $body
         ]);
+    }
+
+    public function findById(int $id) {
+        // TODO: 記事詳細を作る時に書く
     }
 }

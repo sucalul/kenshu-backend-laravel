@@ -9,4 +9,6 @@ interface ArticleRepositoryInterface
         string $title,
         string $body,
     );
+
+    public function findById(int $id);
 }

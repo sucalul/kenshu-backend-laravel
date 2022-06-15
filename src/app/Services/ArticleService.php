@@ -25,4 +25,8 @@ class ArticleService
             $body,
         );
     }
+
+    public function findById(int $id) {
+        return $this->ArticleRepositoryInterface->findById($id);
+    }
 }
