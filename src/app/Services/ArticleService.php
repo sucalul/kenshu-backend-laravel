@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
+use App\Repositories\ArticleRepositoryInterface;
+
 class ArticleService
 {
-    protected ArticleDataAccess $ArticleDataAccess;
+    protected ArticleRepositoryInterface $ArticleRepositoryInterface;
 
-    public function __construct(ArticleDataAccess $ArticleDataAccess)
+    public function __construct(ArticleRepositoryInterface $ArticleRepositoryInterface)
     {
-        $this->ArticleDataAccess = $ArticleDataAccess;
+        $this->ArticleRepositoryInterface = $ArticleRepositoryInterface;
     }
 
     public function create(
@@ -17,7 +19,7 @@ class ArticleService
         string $body,
     )
     {
-        return $this->ArticleDataAccess->create(
+        return $this->ArticleRepositoryInterface->create(
             $user_id,
             $title,
             $body,

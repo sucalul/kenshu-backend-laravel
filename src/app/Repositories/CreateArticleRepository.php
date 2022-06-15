@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Services\ArticleDataAccess;
+use App\Repositories\ArticleRepositoryInterface;
 use App\Models\Article AS ArticleModel;
 
 
-class CreateArticleRepository implements ArticleDataAccess
+class CreateArticleRepository implements ArticleRepositoryInterface
 {
     protected $ArticleModel;
 

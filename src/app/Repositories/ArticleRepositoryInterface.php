@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Repositories;
 
-interface ArticleDataAccess
+interface ArticleRepositoryInterface
 {
     public function create(
         int $user_id,
