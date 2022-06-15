@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\ArticleCreateRequest;
+use App\Http\Requests\CreateArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
 
@@ -44,7 +44,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleCreateRequest $request)
+    public function store(CreateArticleRequest $request)
     {
         $this->ArticleService->create(
             user_id: $request->user()->id,
