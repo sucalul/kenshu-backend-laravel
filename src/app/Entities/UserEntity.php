@@ -7,23 +7,9 @@ class UserEntity
     public int $id;
     public string $name;
 
-    function __construct(
-        int    $id,
-        string $name,
-    )
+    function __construct(array $list)
     {
-        $this->id = $id;
-        $this->name = $name;
+        $this->id = $list['id'];
+        $this->name = $list['name'];
     }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
 }

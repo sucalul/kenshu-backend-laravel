@@ -5,15 +5,15 @@
     <title>記事</title>
 </head>
 <body>
-    <h3>{{ $article->id }}</h3>
-    <p>書いた人: {{ $article->name }}</p>
-    <h3>{{ $article->title }}</h3>
-    <h3>{{ $article->body }}</h3>
+<h3>{{ $article->id }}</h3>
+<p>書いた人: {{ $article->user->name }}</p>
+<h3>{{ $article->title }}</h3>
+<h3>{{ $article->body }}</h3>
 
-    <a href="/articles/{{ $article->id }}/edit">Edit</a>
-    <form action="/articles/{{ $article->id }}" method="post">
-        @csrf
-        <button type="submit">Delete</button>
-    </form>
+<a href="/articles/{{ $article->id }}/edit">Edit</a>
+<form action="/articles/{{ $article->id }}" method="post">
+    @csrf
+    <button type="submit">Delete</button>
+</form>
 </body>
 </html>
