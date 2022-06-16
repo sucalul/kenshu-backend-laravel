@@ -12,11 +12,11 @@ use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {
-    private ArticleService $ArticleService;
+    private ArticleService $articleService;
 
-    public function __construct(ArticleService $ArticleService)
+    public function __construct(ArticleService $articleService)
     {
-        $this->ArticleService = $ArticleService;
+        $this->articleService = $articleService;
     }
 
     /**
@@ -48,7 +48,7 @@ class ArticleController extends Controller
      */
     public function create(CreateArticleRequest $request)
     {
-        $this->ArticleService->create(
+        $this->articleService->create(
             user_id: $request->user()->id,
             title: $request->get('title'),
             body: $request->get('body'),
@@ -64,7 +64,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = $this->ArticleService->findById($id);
+        $article = $this->articleService->findById($id);
         if (is_null($article)) {
             abort(404);
         }
