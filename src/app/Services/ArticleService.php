@@ -2,31 +2,33 @@
 
 namespace App\Services;
 
+use App\Entities\ArticleEntity;
 use App\Repositories\ArticleRepositoryInterface;
 
 class ArticleService
 {
-    protected ArticleRepositoryInterface $ArticleRepositoryInterface;
+    protected ArticleRepositoryInterface $articleRepositoryInterface;
 
-    public function __construct(ArticleRepositoryInterface $ArticleRepositoryInterface)
+    public function __construct(ArticleRepositoryInterface $articleRepositoryInterface)
     {
-        $this->ArticleRepositoryInterface = $ArticleRepositoryInterface;
+        $this->articleRepositoryInterface = $articleRepositoryInterface;
     }
 
     public function create(
-        int $user_id,
+        int    $user_id,
         string $title,
         string $body,
     )
     {
-        return $this->ArticleRepositoryInterface->create(
+        return $this->articleRepositoryInterface->create(
             $user_id,
             $title,
             $body,
         );
     }
 
-    public function findById(int $id) {
-        return $this->ArticleRepositoryInterface->findById($id);
+    public function findById(int $id): ?ArticleEntity
+    {
+        return $this->articleRepositoryInterface->findById($id);
     }
 }

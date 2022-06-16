@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Entities\ArticleEntity;
+
 interface ArticleRepositoryInterface
 {
     public function create(
@@ -10,5 +12,5 @@ interface ArticleRepositoryInterface
         string $body,
     );
 
-    public function findById(int $id);
+    public function findById(int $id): ?ArticleEntity;
 }

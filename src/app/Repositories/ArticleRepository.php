@@ -2,20 +2,20 @@
 
 namespace App\Repositories;
 
-use App\Repositories\ArticleRepositoryInterface;
-use App\Models\Article AS ArticleModel;
+use App\Entities\ArticleEntity;
+use App\Entities\UserEntity;
+use App\Models\Article as ArticleModel;
 
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
-    protected $ArticleModel;
-
+    protected ArticleModel $articleModel;
 
     public function __construct(
-        ArticleModel $ArticleModel,
+        ArticleModel $articleModel,
     )
     {
-        $this->ArticleModel = $ArticleModel;
+        $this->ArticleModel = $articleModel;
     }
 
     public function create(
@@ -31,7 +31,9 @@ class ArticleRepository implements ArticleRepositoryInterface
         ]);
     }
 
-    public function findById(int $id) {
-        // TODO: 記事詳細を作る時に書く
+    public function findById(int $id): ?ArticleEntity
+    {
+        $article = ArticleModel::with(['user'])->get()->find($id);
+        return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
 }
