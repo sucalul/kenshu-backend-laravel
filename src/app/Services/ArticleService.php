@@ -31,4 +31,9 @@ class ArticleService
     {
         return $this->articleRepositoryInterface->findById($id);
     }
+
+    public function update(int $id, string $title, string $body): ?int
+    {
+        return $this->articleRepositoryInterface->update($id, $title, $body);
+    }
 }

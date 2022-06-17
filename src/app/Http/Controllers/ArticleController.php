@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreateArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
 
@@ -79,19 +80,32 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = $this->articleService->findById($id);
+        if (is_null($article)) {
+            abort(404);
+        }
+        return view('articles/edit', ['article' => $article]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param UpdateArticleRequest $request
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateArticleRequest $request, $id)
     {
-        //
+        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
+        $article = $this->articleService->update(
+            id: $id,
+            title: $request->get('title'),
+            body: $request->get('body')
+        );
+        if (is_null($article)) {
+            abort('404');
+        }
+        return redirect('/articles');
     }
 
     /**
