@@ -36,7 +36,6 @@ class ArticleService
     {
         $article = $this->articleRepositoryInterface->update($id, $title, $body);
         if (!$article) {
-            throw new \Exception("Not found");
             abort(404);
         }
         return true;
