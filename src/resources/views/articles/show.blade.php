@@ -12,6 +12,7 @@
 
 <a href="/articles/{{ $article->id }}/edit">Edit</a>
 <form action="/articles/{{ $article->id }}" method="post">
+    @method('DELETE')
     @csrf
     <button type="submit">Delete</button>
 </form>

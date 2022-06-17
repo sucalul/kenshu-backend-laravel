@@ -23,6 +23,7 @@ Route::post('/articles', [ArticleController::class, 'create']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit']);
 Route::patch('/articles/{id}', [ArticleController::class, 'update']);
+Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
 
 // Auth
 Route::get('/auth/signup', [AuthController::class, 'viewSignup']);

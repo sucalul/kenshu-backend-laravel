@@ -40,4 +40,13 @@ class ArticleService
         }
         return true;
     }
+
+    public function destroy(int $id): bool
+    {
+        $article = $this->articleRepositoryInterface->destroy($id);
+        if (!$article) {
+            abort('404');
+        }
+        return true;
+    }
 }

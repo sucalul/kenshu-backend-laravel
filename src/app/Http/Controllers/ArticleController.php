@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
@@ -109,10 +111,12 @@ class ArticleController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id): RedirectResponse|Redirector
     {
-        //
+        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
+        $this->articleService->destroy($id);
+        return redirect('/articles');
     }
 }
