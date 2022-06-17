@@ -94,17 +94,14 @@ class ArticleController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(UpdateArticleRequest $request, $id)
+    public function update(UpdateArticleRequest $request, int $id)
     {
         // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
-        $article = $this->articleService->update(
+        $this->articleService->update(
             id: $id,
             title: $request->get('title'),
             body: $request->get('body')
         );
-        if ($article !== 1) {
-            abort('404');
-        }
         return redirect('/articles');
     }
 

@@ -37,11 +37,12 @@ class ArticleRepository implements ArticleRepositoryInterface
         return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
 
-    public function update(int $id, string $title, string $body): int
+    public function update(int $id, string $title, string $body): bool
     {
-        return ArticleModel::where('id', $id)->update([
+        $article = ArticleModel::where('id', $id)->update([
             'title' => $title,
             'body' => $body
         ]);
+        return $article === 1;
     }
 }

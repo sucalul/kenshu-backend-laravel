@@ -32,8 +32,13 @@ class ArticleService
         return $this->articleRepositoryInterface->findById($id);
     }
 
-    public function update(int $id, string $title, string $body): int
+    public function update(int $id, string $title, string $body): bool
     {
-        return $this->articleRepositoryInterface->update($id, $title, $body);
+        $article = $this->articleRepositoryInterface->update($id, $title, $body);
+        if (!$article) {
+            throw new \Exception("Not found");
+            abort(404);
+        }
+        return true;
     }
 }
