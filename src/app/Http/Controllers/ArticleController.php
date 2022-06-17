@@ -102,7 +102,7 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body')
         );
-        if (is_null($article)) {
+        if ($article !== 1) {
             abort('404');
         }
         return redirect('/articles');
