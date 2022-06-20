@@ -49,9 +49,13 @@ class ArticleService
 
     public function destroy(int $id): bool
     {
-        $article = $this->articleRepositoryInterface->destroy($id);
+        $article = $this->articleRepositoryInterface->findById($id);
         if (!$article) {
-            abort('404');
+            throw new NotFoundException();
+        }
+        $destroy_article = $this->articleRepositoryInterface->destroy($id);
+        if (!$destroy_article) {
+            throw new Exception();
         }
         return true;
     }
