@@ -26,7 +26,7 @@ class Article extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
     }
 
     public function thumbnail_image()
@@ -36,6 +36,6 @@ class Article extends Model
 
     public function images()
     {
-        return $this->hasMany('App\Models\ArticleImage');
+        return $this->hasMany(ArticleImage::class);
     }
 }

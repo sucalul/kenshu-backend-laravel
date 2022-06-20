@@ -6,11 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 use App\Entities\ArticleEntity;
-use App\Entities\UserEntity;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleImage as ArticleImageModel;
-
-use Exception;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
@@ -44,8 +41,13 @@ class ArticleRepository implements ArticleRepositoryInterface
         string $thumbnail_resource
     )
     {
-        DB::beginTransaction();
-        try {
+        DB::transaction(function () use (
+            $user_id,
+            $title,
+            $body,
+            $resources,
+            $thumbnail_resource
+        ) {
             $article = $this->articleModel::create([
                 'user_id' => $user_id,
                 'title' => $title,
@@ -64,12 +66,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
 
             DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
         }
-
-
+        );
     }
 
     public function findById(int $id): ?ArticleEntity

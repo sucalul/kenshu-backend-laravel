@@ -65,7 +65,6 @@ class ArticleController extends Controller
             resources: $resources,
             thumbnail_resource: $thumbnail_resource
         );
-
         return redirect('/articles');
     }
 
@@ -111,7 +110,6 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body')
         );
-
         return redirect('/articles');
     }
 
