@@ -18,6 +18,9 @@ class ArticleService
         $this->articleRepositoryInterface = $articleRepositoryInterface;
     }
 
+    /**
+     * @return ArticleEntity[]
+     */
     public function findAll(): array
     {
         return $this->articleRepositoryInterface->findAll();

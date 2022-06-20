@@ -6,6 +6,9 @@ use App\Entities\ArticleEntity;
 
 interface ArticleRepositoryInterface
 {
+    /**
+     * @return ArticleEntity[]
+     */
     public function findAll(): array;
 
     public function create(
