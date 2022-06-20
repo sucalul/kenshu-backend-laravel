@@ -36,4 +36,13 @@ class ArticleRepository implements ArticleRepositoryInterface
         $article = ArticleModel::with(['user'])->get()->find($id);
         return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
+
+    public function update(int $id, string $title, string $body): bool
+    {
+        $article = ArticleModel::where('id', $id)->update([
+            'title' => $title,
+            'body' => $body
+        ]);
+        return $article === 1;
+    }
 }

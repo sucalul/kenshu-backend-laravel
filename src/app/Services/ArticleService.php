@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Entities\ArticleEntity;
+use App\Exceptions\NotFoundException;
 use App\Repositories\ArticleRepositoryInterface;
+use Exception;
 
 class ArticleService
 {
@@ -30,5 +32,18 @@ class ArticleService
     public function findById(int $id): ?ArticleEntity
     {
         return $this->articleRepositoryInterface->findById($id);
+    }
+
+    public function update(int $id, string $title, string $body): bool
+    {
+        $article = $this->articleRepositoryInterface->findById($id);
+        if (!$article) {
+            throw new NotFoundException();
+        }
+        $update_article = $this->articleRepositoryInterface->update($id, $title, $body);
+        if (!$update_article) {
+            throw new Exception();
+        }
+        return true;
     }
 }
