@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Entities\ArticleEntity;
+use App\Exceptions\InternalServerErrorException;
+use App\Exceptions\NotFoundException;
 use App\Repositories\ArticleRepositoryInterface;
+use Exception;
 
 class ArticleService
 {
@@ -34,9 +37,14 @@ class ArticleService
 
     public function update(int $id, string $title, string $body): bool
     {
-        $article = $this->articleRepositoryInterface->update($id, $title, $body);
+        $article = $this->articleRepositoryInterface->findById($id);
         if (!$article) {
-            abort(404);
+            throw new NotFoundException();
+        }
+        try {
+            $this->articleRepositoryInterface->update($id, $title, $body);
+        } catch (Exception $e) {
+            throw new InternalServerErrorException();
         }
         return true;
     }
