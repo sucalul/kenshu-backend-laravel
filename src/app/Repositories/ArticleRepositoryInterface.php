@@ -3,14 +3,17 @@
 namespace App\Repositories;
 
 use App\Entities\ArticleEntity;
-use Ramsey\Uuid\Type\Integer;
 
 interface ArticleRepositoryInterface
 {
+    public function findAll(): array;
+
     public function create(
         int    $user_id,
         string $title,
         string $body,
+        array  $resources,
+        string $thumbnail_resource
     );
 
     public function findById(int $id): ?ArticleEntity;

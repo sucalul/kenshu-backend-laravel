@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -11,25 +12,30 @@ use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
+use App\Services\createUpdateArticleService;
 
 
 class ArticleController extends Controller
 {
     private ArticleService $articleService;
+    private createUpdateArticleService $createUpdateArticleService;
 
-    public function __construct(ArticleService $articleService)
+
+    public function __construct(ArticleService $articleService, createUpdateArticleService $createUpdateArticleService)
     {
         $this->articleService = $articleService;
+        $this->createUpdateArticleService = $createUpdateArticleService;
+
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $articles = Article::with('user')->get();
+        $articles = $this->articleService->findAll();
         return view('articles/articleList', ['articles' => $articles]);
     }
 
@@ -51,11 +57,15 @@ class ArticleController extends Controller
      */
     public function create(CreateArticleRequest $request)
     {
+        list($resources, $thumbnail_resource) = $this->createUpdateArticleService->execute($request);
         $this->articleService->create(
             user_id: $request->user()->id,
             title: $request->get('title'),
             body: $request->get('body'),
+            resources: $resources,
+            thumbnail_resource: $thumbnail_resource
         );
+
         return redirect('/articles');
     }
 
@@ -101,6 +111,7 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body')
         );
+
         return redirect('/articles');
     }
 

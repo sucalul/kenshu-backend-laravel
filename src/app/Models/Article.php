@@ -28,4 +28,14 @@ class Article extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function thumbnail_image()
+    {
+        return $this->belongsTo(ArticleImage::class, 'thumbnail_image_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany('App\Models\ArticleImage');
+    }
 }

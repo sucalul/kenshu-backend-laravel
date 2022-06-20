@@ -9,12 +9,12 @@
     こんにちは、{{Auth::user()->name}}さん
 @endif
 @foreach ($articles as $article)
-    <h3>{{ $article['id']}}</h3>
-    <img src="/img/{{ $article['thumbnail_image_id'] }}.png" alt="" style="width:200px; height:200px">
-    <h3>{{ $article['title'] }}</h3>
+    <h3>{{ $article->id}}</h3>
+    <img src="/img/{{ $article->article_image->resource_id }}.png" alt="" style="width:200px; height:200px">
+    <h3>{{ $article->title }}</h3>
     <p>書いた人: {{ $article->user->name }}</p>
-    <button type="button" class="btn btn-info" onclick=location.href="/articles/{{ $article['id'] }}">More</button>
-    <form action="/articles/{{ $article['id'] }}" method="post">
+    <button type="button" class="btn btn-info" onclick=location.href="/articles/{{ $article->id }}">More</button>
+    <form action="/articles/{{ $article->id }}" method="post">
         @method('DELETE')
         @csrf
         <button type="submit">Delete</button>
