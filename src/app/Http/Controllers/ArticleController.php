@@ -68,9 +68,6 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = $this->articleService->findById($id);
-        if (is_null($article)) {
-            abort(404);
-        }
         return view('articles/show', ['article' => $article]);
     }
 
