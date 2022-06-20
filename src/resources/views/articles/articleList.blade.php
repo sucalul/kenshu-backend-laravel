@@ -14,7 +14,9 @@
     <h3>{{ $article['title'] }}</h3>
     <p>書いた人: {{ $article->user->name }}</p>
     <button type="button" class="btn btn-info" onclick=location.href="/articles/{{ $article['id'] }}">More</button>
-    <form action="/articles/{{ $article['id'] }}/delete" method="post">
+    <form action="/articles/{{ $article['id'] }}" method="post">
+        @method('DELETE')
+        @csrf
         <button type="submit">Delete</button>
     </form>
     <p>-------------------------</p>

@@ -45,4 +45,10 @@ class ArticleRepository implements ArticleRepositoryInterface
         ]);
         return $article === 1;
     }
+
+    public function destroy(int $id): bool
+    {
+        $article = ArticleModel::where('id', $id)->delete();
+        return $article === 1;
+    }
 }

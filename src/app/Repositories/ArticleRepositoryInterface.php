@@ -16,4 +16,6 @@ interface ArticleRepositoryInterface
     public function findById(int $id): ?ArticleEntity;
 
     public function update(int $id, string $title, string $body): bool;
+
+    public function destroy(int $id): bool;
 }
