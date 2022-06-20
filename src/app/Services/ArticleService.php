@@ -40,8 +40,8 @@ class ArticleService
         if (!$article) {
             throw new NotFoundException();
         }
-        $update_article = $this->articleRepositoryInterface->update($id, $title, $body);
-        if (!$update_article) {
+        $is_update_success = $this->articleRepositoryInterface->update($id, $title, $body);
+        if (!$is_update_success) {
             throw new Exception();
         }
         return true;
@@ -53,8 +53,8 @@ class ArticleService
         if (!$article) {
             throw new NotFoundException();
         }
-        $destroy_article = $this->articleRepositoryInterface->destroy($id);
-        if (!$destroy_article) {
+        $is_deleted_success = $this->articleRepositoryInterface->destroy($id);
+        if (!$is_deleted_success) {
             throw new Exception();
         }
         return true;
