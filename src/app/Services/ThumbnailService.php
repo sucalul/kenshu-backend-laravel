@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class CreateUpdateArticleService
+class ThumbnailService
 {
     public function execute($request)
     {
@@ -15,15 +15,17 @@ class CreateUpdateArticleService
         $thumbnail_resource = '';
 
         for ($i = 0; $i < count($request->file('upload_image')); $i++) {
-            $resource = uniqid();
-            $resources[] = $resource;
+            $resource_id = uniqid();
+            $resources[] = $resource_id;
+            $ext = $request->file('upload_image')[$i]->getClientOriginalExtension();
+            $resource = $resource_id . '.' . $ext;
             if ($request->has('is-thumbnail') && $request->get('is-thumbnail') == $request->file('upload_image')[$i]->getClientOriginalName()) {
                 $thumbnail_resource = $resource;
                 $index = array_search($thumbnail_resource, $resources);
                 array_splice($resources, $index, 1);
             }
             // upload先指定
-            $uploaded_path = 'img/' . $resource . '.png';
+            $uploaded_path = 'img/' . $resource;
             // fileの移動
             move_uploaded_file($request->file('upload_image')[$i], $uploaded_path);
         }

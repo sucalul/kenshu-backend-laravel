@@ -10,22 +10,19 @@ use Illuminate\Http\Request;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
-use App\Models\Article;
 use App\Services\ArticleService;
-use App\Services\createUpdateArticleService;
+use App\Services\ThumbnailService;
 
 
 class ArticleController extends Controller
 {
     private ArticleService $articleService;
-    private createUpdateArticleService $createUpdateArticleService;
+    private ThumbnailService $thumbnailService;
 
-
-    public function __construct(ArticleService $articleService, createUpdateArticleService $createUpdateArticleService)
+    public function __construct(ArticleService $articleService, ThumbnailService $thumbnailService)
     {
         $this->articleService = $articleService;
-        $this->createUpdateArticleService = $createUpdateArticleService;
-
+        $this->thumbnailService = $thumbnailService;
     }
 
     /**
@@ -57,7 +54,7 @@ class ArticleController extends Controller
      */
     public function create(CreateArticleRequest $request)
     {
-        list($resources, $thumbnail_resource) = $this->createUpdateArticleService->execute($request);
+        list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->create(
             user_id: $request->user()->id,
             title: $request->get('title'),

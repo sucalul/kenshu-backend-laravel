@@ -23,6 +23,9 @@ class ArticleRepository implements ArticleRepositoryInterface
         $this->articleImageModel = $articleImageModel;
     }
 
+    /**
+     * @return ArticleEntity[]
+     */
     public function findAll(): array
     {
         $articleList = array();
