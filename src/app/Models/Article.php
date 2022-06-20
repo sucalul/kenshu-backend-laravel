@@ -26,6 +26,16 @@ class Article extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo(User::class);
+    }
+
+    public function thumbnail_image()
+    {
+        return $this->belongsTo(ArticleImage::class, 'thumbnail_image_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ArticleImage::class);
     }
 }

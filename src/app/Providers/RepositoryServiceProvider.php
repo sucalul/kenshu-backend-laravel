@@ -17,6 +17,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\ArticleRepositoryInterface::class, function ($app) {
             return new \App\Repositories\ArticleRepository(
                 new \App\Models\Article,
+                new \App\Models\ArticleImage,
             );
         });
 

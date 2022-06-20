@@ -18,7 +18,12 @@
         <label class="body" for="body">本文</label>
         <textarea rows="4" id="body" name="body" required></textarea>
     </div>
+    <div>
+        <input type="file" id="images" name="upload_image[]" multiple>
+        <div id="preview"></div>
+    </div>
     <input type="submit" name="submit" >
 </form>
+<script src="{{ asset('/js/preview.js') }}"></script>
 </body>
 </html>

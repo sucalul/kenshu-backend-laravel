@@ -11,21 +11,35 @@ class ArticleService
 {
     protected ArticleRepositoryInterface $articleRepositoryInterface;
 
-    public function __construct(ArticleRepositoryInterface $articleRepositoryInterface)
+    public function __construct(
+        ArticleRepositoryInterface $articleRepositoryInterface
+    )
     {
         $this->articleRepositoryInterface = $articleRepositoryInterface;
+    }
+
+    /**
+     * @return ArticleEntity[]
+     */
+    public function findAll(): array
+    {
+        return $this->articleRepositoryInterface->findAll();
     }
 
     public function create(
         int    $user_id,
         string $title,
         string $body,
+        array  $resources,
+        string $thumbnail_resource
     )
     {
         return $this->articleRepositoryInterface->create(
             $user_id,
             $title,
             $body,
+            $resources,
+            $thumbnail_resource
         );
     }
 
