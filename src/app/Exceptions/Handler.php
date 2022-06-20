@@ -47,9 +47,6 @@ class Handler extends ExceptionHandler
         if ($e instanceof NotFoundException) {
             abort('404');
         }
-        if ($e instanceof InternalServerErrorException) {
-            abort('500');
-        }
         return parent::render($request, $e);
     }
 }

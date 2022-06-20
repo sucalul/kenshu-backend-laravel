@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Entities\ArticleEntity;
-use App\Exceptions\InternalServerErrorException;
 use App\Exceptions\NotFoundException;
 use App\Repositories\ArticleRepositoryInterface;
-use Exception;
 
 class ArticleService
 {
@@ -41,11 +39,7 @@ class ArticleService
         if (!$article) {
             throw new NotFoundException();
         }
-        try {
-            $this->articleRepositoryInterface->update($id, $title, $body);
-        } catch (Exception $e) {
-            throw new InternalServerErrorException();
-        }
+        $this->articleRepositoryInterface->update($id, $title, $body);
         return true;
     }
 }
