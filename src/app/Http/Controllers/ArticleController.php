@@ -11,17 +11,26 @@ use App\Exceptions\NotFoundException;
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Services\ArticleService;
+use App\Services\TagService;
 use App\Services\ThumbnailService;
+
 
 
 class ArticleController extends Controller
 {
     private ArticleService $articleService;
+    private TagService $tagService;
     private ThumbnailService $thumbnailService;
 
-    public function __construct(ArticleService $articleService, ThumbnailService $thumbnailService)
+
+    public function __construct(
+        ArticleService $articleService,
+        TagService $tagService,
+        ThumbnailService $thumbnailService,
+    )
     {
         $this->articleService = $articleService;
+        $this->tagService = $tagService;
         $this->thumbnailService = $thumbnailService;
     }
 
@@ -43,7 +52,8 @@ class ArticleController extends Controller
      */
     public function new()
     {
-        return view('articles/create');
+        $tags = $this->tagService->findAll();
+        return view('articles/create', ['tags' => $tags]);
     }
 
     /**
