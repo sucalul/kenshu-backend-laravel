@@ -10,7 +10,7 @@
 @endif
 @foreach ($articles as $article)
     <h3>{{ $article->id}}</h3>
-    <img src="/img/{{ $article->thumbnail_image_id }}" alt="" style="width:200px; height:200px">
+    <img src="/img/{{ $article->thumbnail_image_name }}" alt="" style="width:200px; height:200px">
     <h3>{{ $article->title }}</h3>
     <p>書いた人: {{ $article->user->name }}</p>
     <button type="button" class="btn btn-info" onclick=location.href="/articles/{{ $article->id }}">More</button>
