@@ -177,7 +177,8 @@ return [
         // Newly Added
         App\Providers\ArticleServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
-
+        App\Providers\TagServiceProvider::class,
+        App\Providers\TagRepositoryServiceProvider::class,
     ],
 
     /*

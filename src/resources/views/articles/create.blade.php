@@ -19,6 +19,13 @@
         <textarea rows="4" id="body" name="body" required></textarea>
     </div>
     <div>
+        @foreach( $tags as $tag )
+            <input type="checkbox" name="tags[]" id="{{ $tag->id }}" value="{{ $tag->id }}">
+                <label for="{{ $tag->id }}">{{ $tag->name }}</label>
+            </input>
+        @endforeach
+    </div>
+    <div>
         <input type="file" id="images" name="upload_image[]" multiple>
         <div id="preview"></div>
     </div>
