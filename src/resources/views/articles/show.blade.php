@@ -14,6 +14,13 @@
 <h3>{{ $article->title }}</h3>
 <h3>{{ $article->body }}</h3>
 
+<p>登録しているタグ</p>
+<ul>
+    @foreach($article->tags as $tag)
+        <li>{{ $tag->name }}</li>
+    @endforeach
+</ul>
+
 <a href="/articles/{{ $article->id }}/edit">Edit</a>
 <form action="/articles/{{ $article->id }}" method="post">
     @method('DELETE')

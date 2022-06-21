@@ -11,6 +11,8 @@ class ArticleEntity
     public UserEntity $user;
     /** ArticleImageEntity[] */
     public array $article_images;
+    /** TagEntity[] */
+    public array $tags;
 
     function __construct(array $list)
     {
@@ -20,6 +22,7 @@ class ArticleEntity
         $this->thumbnail_image_name = $list['thumbnail_image']['resource_id'];
         $this->user = new UserEntity($list['user']);
         $this->article_image = $this->getImagesOtherThanThumbnail($list);
+        $this->tags = $this->getArticleTags($list);
     }
 
     private function getImagesOtherThanThumbnail(array $list): array
@@ -34,5 +37,14 @@ class ArticleEntity
             $image_list[] = $article_image;
         }
         return $image_list;
+    }
+
+    private function getArticleTags(array $list): array
+    {
+        $article_tag_list = array();
+        foreach ($list['tags'] as $tag) {
+            $article_tag_list[] = new TagEntity($tag);
+        }
+        return $article_tag_list;
     }
 }
