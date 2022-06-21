@@ -79,13 +79,45 @@ class ArticleRepository implements ArticleRepositoryInterface
         return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
 
-    public function update(int $id, string $title, string $body): bool
+    public function update(
+        int    $id,
+        string $title,
+        string $body,
+        array  $resources,
+        string $thumbnail_resource
+    ): bool
     {
-        $article = ArticleModel::where('id', $id)->update([
-            'title' => $title,
-            'body' => $body
-        ]);
-        return $article === 1;
+        DB::transaction(function () use (
+            $id,
+            $title,
+            $body,
+            $resources,
+            $thumbnail_resource,
+        ) {
+            $this->createArticleImages($id, $resources);
+            $exists_thumbnail_image = $this->articleImageModel->where('resource_id', $thumbnail_resource)->first(['id']);
+            if (is_null($exists_thumbnail_image)) {
+                $thumbnail_image = $this->articleImageModel::create([
+                    'article_id' => $id,
+                    'resource_id' => $thumbnail_resource,
+                ]);
+                $this->articleModel::where('id', $id)->update([
+                    'title' => $title,
+                    'body' => $body,
+                    'thumbnail_image_id' => $thumbnail_image->id
+                ]);
+            } else {
+                $this->articleModel::where('id', $id)->update([
+                    'title' => $title,
+                    'body' => $body,
+                    'thumbnail_image_id' => $exists_thumbnail_image->id,
+                ]);
+            }
+
+            DB::commit();
+        }
+        );
+        return true;
     }
 
     public function destroy(int $id): bool

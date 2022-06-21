@@ -21,7 +21,7 @@ interface ArticleRepositoryInterface
 
     public function findById(int $id): ?ArticleEntity;
 
-    public function update(int $id, string $title, string $body): bool;
+    public function update(int $id, string $title, string $body, array $resources, string $thumbnail_resource): bool;
 
     public function destroy(int $id): bool;
 }

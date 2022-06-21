@@ -48,13 +48,25 @@ class ArticleService
         return $this->articleRepositoryInterface->findById($id);
     }
 
-    public function update(int $id, string $title, string $body): bool
+    public function update(
+        int    $id,
+        string $title,
+        string $body,
+        array  $resources,
+        string $thumbnail_resource
+    ): bool
     {
         $article = $this->articleRepositoryInterface->findById($id);
         if (!$article) {
             throw new NotFoundException();
         }
-        $is_update_success = $this->articleRepositoryInterface->update($id, $title, $body);
+        $is_update_success = $this->articleRepositoryInterface->update(
+            $id,
+            $title,
+            $body,
+            $resources,
+            $thumbnail_resource
+        );
         if (!$is_update_success) {
             throw new Exception();
         }

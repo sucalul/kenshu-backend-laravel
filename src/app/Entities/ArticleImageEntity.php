@@ -9,10 +9,10 @@ class ArticleImageEntity
     public int $article_id;
     public string $image_name;
 
-    function __construct(array $images)
+    function __construct(array $list)
     {
-        $this->id = $images['id'];
-        $this->article_id = $images['article_id'];
-        $this->image_name = $images['resource_id'];
+        $this->id = $list['id'];
+        $this->article_id = $list['article_id'];
+        $this->image_name = $list['resource_id'];
     }
 }
