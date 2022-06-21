@@ -104,14 +104,15 @@ class ArticleRepository implements ArticleRepositoryInterface
                 $this->articleModel::where('id', $id)->update([
                     'title' => $title,
                     'body' => $body,
-                    'thumbnail_image_id' => $thumbnail_image->$id
+                    'thumbnail_image_id' => $thumbnail_image->id
+                ]);
+            } else {
+                $this->articleModel::where('id', $id)->update([
+                    'title' => $title,
+                    'body' => $body,
+                    'thumbnail_image_id' => $exists_thumbnail_image->id,
                 ]);
             }
-            $this->articleModel::where('id', $id)->update([
-                'title' => $title,
-                'body' => $body,
-                'thumbnail_image_id' => $exists_thumbnail_image->id,
-            ]);
 
             DB::commit();
         }
