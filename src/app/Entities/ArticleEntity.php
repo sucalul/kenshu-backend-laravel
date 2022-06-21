@@ -7,9 +7,10 @@ class ArticleEntity
     public int $id;
     public string $title;
     public string $body;
-    public string $thumbnail_image_id;
+    public string $thumbnail_image_name;
     public UserEntity $user;
-    public array $article_image;
+    /** ArticleImageEntity[] */
+    public array $article_images;
 
     function __construct(array $list)
     {
@@ -18,18 +19,16 @@ class ArticleEntity
         $this->body = $list['body'];
         $this->thumbnail_image_id = $list['thumbnail_image']['resource_id'];
         $this->user = new UserEntity($list['user']);
-        $this->article_image = $this->getUniqueImages($list);
+        $this->article_image = $this->getImagesOtherThanThumbnail($list);
     }
 
-    // サムネイル以外の画像を取得
-    private function getUniqueImages(array $list): array
+    private function getImagesOtherThanThumbnail(array $list): array
     {
         $image_list = array();
-        $thumbnail_image_resource_id = $list['thumbnail_image']['resource_id'];
+        $thumbnail_image_name = $list['thumbnail_image']['resource_id'];
         foreach ($list['images'] as $image) {
             $article_image = new ArticleImageEntity($image);
-            // サムネイル画像idと一致する画像はここで排除
-            if ($article_image->resource_id === $thumbnail_image_resource_id) {
+            if ($article_image->image_name === $thumbnail_image_name) {
                 continue;
             }
             $image_list[] = $article_image;
