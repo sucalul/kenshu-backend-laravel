@@ -102,10 +102,13 @@ class ArticleController extends Controller
     public function update(UpdateArticleRequest $request, int $id)
     {
         // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
+        list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->update(
             id: $id,
             title: $request->get('title'),
-            body: $request->get('body')
+            body: $request->get('body'),
+            resources: $resources,
+            thumbnail_resource: $thumbnail_resource
         );
         return redirect('/articles');
     }
