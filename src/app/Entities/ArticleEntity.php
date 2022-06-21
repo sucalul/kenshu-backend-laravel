@@ -17,7 +17,7 @@ class ArticleEntity
         $this->id = $list['id'];
         $this->title = $list['title'];
         $this->body = $list['body'];
-        $this->thumbnail_image_id = $list['thumbnail_image']['resource_id'];
+        $this->thumbnail_image_name = $list['thumbnail_image']['resource_id'];
         $this->user = new UserEntity($list['user']);
         $this->article_image = $this->getImagesOtherThanThumbnail($list);
     }
