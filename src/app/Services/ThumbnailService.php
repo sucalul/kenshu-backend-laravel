@@ -16,9 +16,9 @@ class ThumbnailService
 
         for ($i = 0; $i < count($request->file('upload_image')); $i++) {
             $resource_id = uniqid();
-            $resources[] = $resource_id;
             $ext = $request->file('upload_image')[$i]->getClientOriginalExtension();
             $resource = $resource_id . '.' . $ext;
+            $resources[] = $resource;
             if ($request->has('is-thumbnail') && $request->get('is-thumbnail') == $request->file('upload_image')[$i]->getClientOriginalName()) {
                 $thumbnail_resource = $resource;
                 $index = array_search($thumbnail_resource, $resources);

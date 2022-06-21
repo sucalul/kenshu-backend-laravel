@@ -29,7 +29,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function findAll(): array
     {
         $articleList = array();
-        $articles = $this->articleModel::with('user', 'thumbnail_image')->get()->sortBy('created_at');
+        $articles = $this->articleModel::with('user', 'thumbnail_image', 'images')->get()->sortBy('created_at');
         foreach ($articles as $article) {
             $articleList[] = new ArticleEntity($article->toArray());
         }
@@ -75,7 +75,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
     public function findById(int $id): ?ArticleEntity
     {
-        $article = ArticleModel::with(['user'])->get()->find($id);
+        $article = ArticleModel::with(['user', 'thumbnail_image', 'images'])->get()->find($id);
         return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
 
