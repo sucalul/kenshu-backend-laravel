@@ -100,7 +100,8 @@ class ArticleController extends Controller
         if (is_null($article)) {
             abort(404);
         }
-        return view('articles/edit', ['article' => $article]);
+        $tags = $this->tagService->findAll();
+        return view('articles/edit', compact('article', 'tags'));
     }
 
     /**
@@ -119,7 +120,8 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body'),
             resources: $resources,
-            thumbnail_resource: $thumbnail_resource
+            thumbnail_resource: $thumbnail_resource,
+            tags: $request->get('tags')
         );
         return redirect('/articles');
     }

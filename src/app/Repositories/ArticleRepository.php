@@ -91,7 +91,8 @@ class ArticleRepository implements ArticleRepositoryInterface
         string $title,
         string $body,
         array  $resources,
-        string $thumbnail_resource
+        string $thumbnail_resource,
+        array  $tags
     ): bool
     {
         DB::transaction(function () use (
@@ -100,8 +101,10 @@ class ArticleRepository implements ArticleRepositoryInterface
             $body,
             $resources,
             $thumbnail_resource,
+            $tags
         ) {
             $this->createArticleImages($id, $resources);
+            $this->updateArticleTags($id, $tags);
             $exists_thumbnail_image = $this->articleImageModel->where('resource_id', $thumbnail_resource)->first(['id']);
             if (is_null($exists_thumbnail_image)) {
                 $thumbnail_image = $this->articleImageModel::create([
@@ -164,5 +167,13 @@ class ArticleRepository implements ArticleRepositoryInterface
             ];
         }
         $this->articleTagModel::insert($params);
+    }
+
+    private function updateArticleTags(int $article_id, array $tags)
+    {
+        // 本来ならトランザクションを貼るべきだが、
+        // 親のArticleでトランザクションを貼っているからトランザクションは貼らなくても良い
+        $this->articleTagModel::where('article_id', $article_id)->delete();
+        $this->createArticleTags($article_id, $tags);
     }
 }

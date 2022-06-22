@@ -55,7 +55,8 @@ class ArticleService
         string $title,
         string $body,
         array  $resources,
-        string $thumbnail_resource
+        string $thumbnail_resource,
+        array  $tags
     ): bool
     {
         $article = $this->articleRepositoryInterface->findById($id);
@@ -67,7 +68,8 @@ class ArticleService
             $title,
             $body,
             $resources,
-            $thumbnail_resource
+            $thumbnail_resource,
+            $tags
         );
         if (!$is_update_success) {
             throw new Exception();
