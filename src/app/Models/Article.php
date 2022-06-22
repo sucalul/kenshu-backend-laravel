@@ -38,4 +38,9 @@ class Article extends Model
     {
         return $this->hasMany(ArticleImage::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tags');
+    }
 }

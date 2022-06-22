@@ -24,8 +24,8 @@ class ArticleController extends Controller
 
 
     public function __construct(
-        ArticleService $articleService,
-        TagService $tagService,
+        ArticleService   $articleService,
+        TagService       $tagService,
         ThumbnailService $thumbnailService,
     )
     {
@@ -70,7 +70,8 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body'),
             resources: $resources,
-            thumbnail_resource: $thumbnail_resource
+            thumbnail_resource: $thumbnail_resource,
+            tags: $request->get('tags')
         );
         return redirect('/articles');
     }
