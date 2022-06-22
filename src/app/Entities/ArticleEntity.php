@@ -41,7 +41,7 @@ class ArticleEntity
 
     private function getArticleTags(array $list): array
     {
-        $article_tag_list = array();
+        $article_tag_list = [];
         foreach ($list['tags'] as $tag) {
             $article_tag_list[] = new TagEntity($tag);
         }
