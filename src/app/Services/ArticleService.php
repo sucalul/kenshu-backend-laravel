@@ -32,7 +32,8 @@ class ArticleService
         string $title,
         string $body,
         array  $resources,
-        string $thumbnail_resource
+        string $thumbnail_resource,
+        array  $tags
     )
     {
         return $this->articleRepositoryInterface->create(
@@ -40,7 +41,8 @@ class ArticleService
             $title,
             $body,
             $resources,
-            $thumbnail_resource
+            $thumbnail_resource,
+            $tags
         );
     }
 
@@ -55,6 +57,7 @@ class ArticleService
         string $body,
         array  $resources,
         string $thumbnail_resource,
+        array  $tags,
         int    $user_id
     ): bool
     {
@@ -70,7 +73,8 @@ class ArticleService
             $title,
             $body,
             $resources,
-            $thumbnail_resource
+            $thumbnail_resource,
+            $tags
         );
         if (!$is_update_success) {
             throw new Exception();

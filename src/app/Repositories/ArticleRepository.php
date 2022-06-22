@@ -8,19 +8,23 @@ use Illuminate\Support\Facades\DB;
 use App\Entities\ArticleEntity;
 use App\Models\Article as ArticleModel;
 use App\Models\ArticleImage as ArticleImageModel;
+use App\Models\ArticleTag as ArticleTagModel;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
-    private articleModel $articleModel;
-    private articleImageModel $articleImageModel;
+    private ArticleModel $articleModel;
+    private ArticleImageModel $articleImageModel;
+    private ArticleTagModel $articleTagModel;
 
     public function __construct(
-        articleModel      $articleModel,
-        articleImageModel $articleImageModel
+        ArticleModel      $articleModel,
+        ArticleImageModel $articleImageModel,
+        ArticleTagModel   $articleTagModel
     )
     {
         $this->articleModel = $articleModel;
         $this->articleImageModel = $articleImageModel;
+        $this->articleTagModel = $articleTagModel;
     }
 
     /**
@@ -29,7 +33,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function findAll(): array
     {
         $articleList = array();
-        $articles = $this->articleModel::with('user', 'thumbnail_image', 'images')->get()->sortBy('created_at');
+        $articles = $this->articleModel::with('user', 'thumbnail_image', 'images', 'tags')->get()->sortBy('created_at');
         foreach ($articles as $article) {
             $articleList[] = new ArticleEntity($article->toArray());
         }
@@ -41,7 +45,8 @@ class ArticleRepository implements ArticleRepositoryInterface
         string $title,
         string $body,
         array  $resources,
-        string $thumbnail_resource
+        string $thumbnail_resource,
+        array  $tags
     )
     {
         DB::transaction(function () use (
@@ -49,7 +54,8 @@ class ArticleRepository implements ArticleRepositoryInterface
             $title,
             $body,
             $resources,
-            $thumbnail_resource
+            $thumbnail_resource,
+            $tags
         ) {
             $article = $this->articleModel::create([
                 'user_id' => $user_id,
@@ -63,6 +69,7 @@ class ArticleRepository implements ArticleRepositoryInterface
             ]);
             // サムネイル以外の画像をinsert
             $this->createArticleImages($article->id, $resources);
+            $this->createArticleTags($article->id, $tags);
             // 画像をいれたのでarticleの更新処理をする
             $article->update([
                 'thumbnail_image_id' => $thumbnail_image->id,
@@ -75,7 +82,7 @@ class ArticleRepository implements ArticleRepositoryInterface
 
     public function findById(int $id): ?ArticleEntity
     {
-        $article = ArticleModel::with(['user', 'thumbnail_image', 'images'])->get()->find($id);
+        $article = ArticleModel::with(['user', 'thumbnail_image', 'images', 'tags'])->get()->find($id);
         return !is_null($article) ? new ArticleEntity($article->toArray()) : null;
     }
 
@@ -84,7 +91,8 @@ class ArticleRepository implements ArticleRepositoryInterface
         string $title,
         string $body,
         array  $resources,
-        string $thumbnail_resource
+        string $thumbnail_resource,
+        array  $tags
     ): bool
     {
         DB::transaction(function () use (
@@ -93,8 +101,10 @@ class ArticleRepository implements ArticleRepositoryInterface
             $body,
             $resources,
             $thumbnail_resource,
+            $tags
         ) {
             $this->createArticleImages($id, $resources);
+            $this->updateArticleTags($id, $tags);
             $exists_thumbnail_image = $this->articleImageModel->where('resource_id', $thumbnail_resource)->first(['id']);
             if (is_null($exists_thumbnail_image)) {
                 $thumbnail_image = $this->articleImageModel::create([
@@ -142,5 +152,28 @@ class ArticleRepository implements ArticleRepositoryInterface
             ];
         }
         $this->articleImageModel::insert($params);
+    }
+
+    private function createArticleTags(
+        int   $article_id,
+        array $tags
+    )
+    {
+        $params = [];
+        for ($i = 0; $i < count($tags); $i++) {
+            $params[] = [
+                'article_id' => $article_id,
+                'tag_id' => $tags[$i]
+            ];
+        }
+        $this->articleTagModel::insert($params);
+    }
+
+    private function updateArticleTags(int $article_id, array $tags)
+    {
+        // 本来ならトランザクションを貼るべきだが、
+        // 親のArticleでトランザクションを貼っているからトランザクションは貼らなくても良い
+        $this->articleTagModel::where('article_id', $article_id)->delete();
+        $this->createArticleTags($article_id, $tags);
     }
 }

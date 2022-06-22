@@ -21,6 +21,21 @@
         <textarea rows="4" id="body" name="body"
                   required>{{ $article->body }}</textarea>
     </div>
+
+    <p>登録しているタグ</p>
+    <ul>
+        @foreach($article->tags as $tag)
+            <li>{{ $tag->name }}</li>
+        @endforeach
+    </ul>
+    <div>
+        <p>タグを変更する</p>
+        @foreach( $tags as $tag )
+            <input type="checkbox" name="tags[]" id="{{ $tag->id }}" value="{{ $tag->id }}">
+                <label for="{{ $tag->id }}">{{ $tag->name }}</label>
+            </input>
+        @endforeach
+    </div>
     <!-- サムネイル画像 -->
     <img src="/img/{{ $article->thumbnail_image_name }}" alt="" style="width:200px; height:200px">
     <input type="radio" id="{{ $article->thumbnail_image_name }}" name="is-thumbnail" value="{{ $article->thumbnail_image_name }}" checked>

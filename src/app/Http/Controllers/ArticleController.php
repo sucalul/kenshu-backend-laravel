@@ -74,7 +74,8 @@ class ArticleController extends Controller
             title: $request->get('title'),
             body: $request->get('body'),
             resources: $resources,
-            thumbnail_resource: $thumbnail_resource
+            thumbnail_resource: $thumbnail_resource,
+            tags: $request->get('tags')
         );
         return redirect('/articles');
     }
@@ -111,7 +112,8 @@ class ArticleController extends Controller
         if ($user->id !== $article->user->id) {
             throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
-        return view('articles/edit', ['article' => $article]);
+        $tags = $this->tagService->findAll();
+        return view('articles/edit', compact('article', 'tags'));
     }
 
     /**
@@ -133,6 +135,7 @@ class ArticleController extends Controller
             body: $request->get('body'),
             resources: $resources,
             thumbnail_resource: $thumbnail_resource,
+            tags: $request->get('tags'),
             user_id: $request->user()->id
         );
         return redirect('/articles');

@@ -18,6 +18,7 @@ class RepositoryServiceProvider extends ServiceProvider
             return new \App\Repositories\ArticleRepository(
                 new \App\Models\Article,
                 new \App\Models\ArticleImage,
+                new \App\Models\ArticleTag,
             );
         });
 
