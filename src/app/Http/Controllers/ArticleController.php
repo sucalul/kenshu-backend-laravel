@@ -95,22 +95,14 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function edit($request, $id)
+    public function edit($id)
     {
-        $user = $request->user();
-        if (is_null($user)) {
-            throw new ForbiddenException('ログインが必要です');
-        }
         $article = $this->articleService->findById($id);
         if (!$article) {
             throw new NotFoundException();
-        }
-        if ($user->id !== $article->user->id) {
-            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         $tags = $this->tagService->findAll();
         return view('articles/edit', compact('article', 'tags'));
