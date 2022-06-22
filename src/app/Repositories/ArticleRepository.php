@@ -156,7 +156,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         array $tags
     )
     {
-        $params = array();
+        $params = [];
         for ($i = 0; $i < count($tags); $i++) {
             $params[] = [
                 'article_id' => $article_id,
