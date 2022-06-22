@@ -16,7 +16,6 @@ use App\Services\TagService;
 use App\Services\ThumbnailService;
 
 
-
 class ArticleController extends Controller
 {
     private ArticleService $articleService;
@@ -65,9 +64,6 @@ class ArticleController extends Controller
      */
     public function create(CreateArticleRequest $request)
     {
-        if (is_null($request->user())) {
-            throw new ForbiddenException('ログインが必要です');
-        }
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->create(
             user_id: $request->user()->id,
@@ -95,14 +91,18 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Request $request, int $id)
     {
         $article = $this->articleService->findById($id);
         if (!$article) {
             throw new NotFoundException();
+        }
+        if ($request->user()->id !== $article->user->id) {
+            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         $tags = $this->tagService->findAll();
         return view('articles/edit', compact('article', 'tags'));
@@ -117,9 +117,6 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, int $id)
     {
-        if (is_null($request->user())) {
-            throw new ForbiddenException('ログインが必要です');
-        }
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->update(
             id: $id,
@@ -143,11 +140,7 @@ class ArticleController extends Controller
      */
     public function destroy(Request $request, int $id): RedirectResponse
     {
-        $user = $request->user();
-        if (is_null($user)) {
-            throw new ForbiddenException('ログインが必要です');
-        }
-        $this->articleService->destroy($id, $user->id);
+        $this->articleService->destroy($id, $request->user()->id);
         return redirect('/articles');
     }
 }
