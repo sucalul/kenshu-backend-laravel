@@ -44,6 +44,9 @@ class Handler extends ExceptionHandler
 
     public function render($request, Exception|Throwable $e)
     {
+        if ($e instanceof ForbiddenException) {
+            return redirect('/articles')->with('message', $e->getMessage());
+        }
         if ($e instanceof NotFoundException) {
             abort('404');
         }

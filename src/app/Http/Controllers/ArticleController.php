@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
@@ -24,8 +25,8 @@ class ArticleController extends Controller
 
 
     public function __construct(
-        ArticleService $articleService,
-        TagService $tagService,
+        ArticleService   $articleService,
+        TagService       $tagService,
         ThumbnailService $thumbnailService,
     )
     {
@@ -64,6 +65,9 @@ class ArticleController extends Controller
      */
     public function create(CreateArticleRequest $request)
     {
+        if (is_null($request->user())) {
+            throw new ForbiddenException('ログインが必要です');
+        }
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->create(
             user_id: $request->user()->id,
@@ -90,14 +94,22 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit($request, $id)
     {
+        $user = $request->user();
+        if (is_null($user)) {
+            throw new ForbiddenException('ログインが必要です');
+        }
         $article = $this->articleService->findById($id);
-        if (is_null($article)) {
-            abort(404);
+        if (!$article) {
+            throw new NotFoundException();
+        }
+        if ($user->id !== $article->user->id) {
+            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         return view('articles/edit', ['article' => $article]);
     }
@@ -111,14 +123,17 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, int $id)
     {
-        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
+        if (is_null($request->user())) {
+            throw new ForbiddenException('ログインが必要です');
+        }
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->update(
             id: $id,
             title: $request->get('title'),
             body: $request->get('body'),
             resources: $resources,
-            thumbnail_resource: $thumbnail_resource
+            thumbnail_resource: $thumbnail_resource,
+            user_id: $request->user()->id
         );
         return redirect('/articles');
     }
@@ -126,14 +141,18 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
      * @return RedirectResponse
      * @throws NotFoundException
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
-        $this->articleService->destroy($id);
+        $user = $request->user();
+        if (is_null($user)) {
+            throw new ForbiddenException('ログインが必要です');
+        }
+        $this->articleService->destroy($id, $user->id);
         return redirect('/articles');
     }
 }
