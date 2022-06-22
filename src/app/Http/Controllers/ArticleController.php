@@ -7,13 +7,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;
 use App\Http\Requests\CreateArticleRequest;
 use App\Http\Requests\UpdateArticleRequest;
 use App\Services\ArticleService;
 use App\Services\TagService;
 use App\Services\ThumbnailService;
-
 
 
 class ArticleController extends Controller
@@ -91,14 +91,18 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function edit($id)
+    public function edit(Request $request, int $id)
     {
         $article = $this->articleService->findById($id);
-        if (is_null($article)) {
-            abort(404);
+        if (!$article) {
+            throw new NotFoundException();
+        }
+        if ($request->user()->id !== $article->user->id) {
+            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         $tags = $this->tagService->findAll();
         return view('articles/edit', compact('article', 'tags'));
@@ -113,7 +117,6 @@ class ArticleController extends Controller
      */
     public function update(UpdateArticleRequest $request, int $id)
     {
-        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
         $this->articleService->update(
             id: $id,
@@ -121,7 +124,8 @@ class ArticleController extends Controller
             body: $request->get('body'),
             resources: $resources,
             thumbnail_resource: $thumbnail_resource,
-            tags: $request->get('tags')
+            tags: $request->get('tags'),
+            user_id: $request->user()->id
         );
         return redirect('/articles');
     }
@@ -129,14 +133,14 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
      * @return RedirectResponse
      * @throws NotFoundException
      */
-    public function destroy(int $id): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
-        // TODO: 記事作成したuserじゃない人を弾く(別PRで対応)
-        $this->articleService->destroy($id);
+        $this->articleService->destroy($id, $request->user()->id);
         return redirect('/articles');
     }
 }

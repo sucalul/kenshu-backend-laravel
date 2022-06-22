@@ -19,11 +19,14 @@ use App\Http\Controllers\AuthController;
 // Article
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/new', [ArticleController::class, 'new']);
-Route::post('/articles', [ArticleController::class, 'create']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/edit', [ArticleController::class, 'edit']);
-Route::patch('/articles/{id}', [ArticleController::class, 'update']);
-Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
+Route::group(['middleware' => ['checkSignin']], function () {
+    Route::post('/articles', [ArticleController::class, 'create']);
+    Route::get('/articles/{id}/edit', [ArticleController::class, 'edit']);
+    Route::patch('/articles/{id}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
+});
+
 
 // Auth
 Route::get('/auth/signup', [AuthController::class, 'viewSignup']);

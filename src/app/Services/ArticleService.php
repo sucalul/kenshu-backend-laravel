@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entities\ArticleEntity;
+use App\Exceptions\ForbiddenException;
 use App\Exceptions\NotFoundException;
 use App\Repositories\ArticleRepositoryInterface;
 use Exception;
@@ -56,12 +57,16 @@ class ArticleService
         string $body,
         array  $resources,
         string $thumbnail_resource,
-        array  $tags
+        array  $tags,
+        int    $user_id
     ): bool
     {
         $article = $this->articleRepositoryInterface->findById($id);
         if (!$article) {
             throw new NotFoundException();
+        }
+        if ($user_id !== $article->user->id) {
+            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         $is_update_success = $this->articleRepositoryInterface->update(
             $id,
@@ -77,11 +82,14 @@ class ArticleService
         return true;
     }
 
-    public function destroy(int $id): bool
+    public function destroy(int $id, int $user_id): bool
     {
         $article = $this->articleRepositoryInterface->findById($id);
         if (!$article) {
             throw new NotFoundException();
+        }
+        if ($user_id !== $article->user->id) {
+            throw new ForbiddenException('他のユーザーの投稿は、編集、更新、削除できません');
         }
         $is_deleted_success = $this->articleRepositoryInterface->destroy($id);
         if (!$is_deleted_success) {

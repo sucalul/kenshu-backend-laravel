@@ -5,15 +5,23 @@
     <title>記事</title>
 </head>
 <body>
+@if (session('message'))
+    <div style="color:red">
+        {{ session('message') }}
+    </div>
+@endif
 @if (Auth::user())
     こんにちは、{{Auth::user()->name}}さん
 @endif
 @foreach ($articles as $article)
     <h3>{{ $article->id}}</h3>
-    <img src="/img/{{ $article->thumbnail_image_name }}" alt="" style="width:200px; height:200px">
+    <img src="/img/{{ $article->thumbnail_image_name }}" alt=""
+         style="width:200px; height:200px">
     <h3>{{ $article->title }}</h3>
     <p>書いた人: {{ $article->user->name }}</p>
-    <button type="button" class="btn btn-info" onclick=location.href="/articles/{{ $article->id }}">More</button>
+    <button type="button" class="btn btn-info"
+            onclick=location.href="/articles/{{ $article->id }}">More
+    </button>
     <form action="/articles/{{ $article->id }}" method="post">
         @method('DELETE')
         @csrf
