@@ -5,6 +5,9 @@
     <title>記事</title>
 </head>
 <body>
+@if (Auth::user())
+    こんにちは、{{Auth::user()->name}}さん
+@endif
 <h3>{{ $article->id }}</h3>
 <img src="/img/{{ $article->thumbnail_image_name }}" alt="" style="width:200px; height:200px">
 @foreach($article->article_image as $image)
