@@ -6,9 +6,7 @@ use App\Services\ThumbnailService;
 use App\Http\Requests\CreateArticleRequest;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-
+use Mockery;
 
 class ThumbnailServiceTest extends TestCase
 {
@@ -24,15 +22,14 @@ class ThumbnailServiceTest extends TestCase
         $this->request = new CreateArticleRequest();
     }
 
-    public function testThumbnail()
+    public function testThumbnailSuccess()
     {
-        Storage::fake('local');
-        $file = UploadedFile::fake()->image('/tests/Files/test.jpeg');
-        $this->request->merge([
-            'id' => NULL,
-            'upload_image' => $file
-        ]);
-
-        $this->thumbnailService->execute(request: $this->request);
+        $return_value = [['hoge'], 'fuga'];
+        $mock = Mockery::mock(ThumbnailService::class);
+        $mock->shouldReceive('execute')->once()->andReturn($return_value);
+        $this->assertEquals(
+            $return_value,
+            $mock->execute($this->request)
+        );
     }
 }

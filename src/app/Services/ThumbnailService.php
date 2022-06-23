@@ -20,8 +20,6 @@ class ThumbnailService
 
     private function checkThumbnail(object $request): array
     {
-        var_dump(dd($request->all()));
-
         $resources = array();
         $thumbnail_resource = '';
         // 更新時かつ、もうすでにarticle_imagesテーブルに存在する画像がサムネイルとして選択されている時この処理は実行される
