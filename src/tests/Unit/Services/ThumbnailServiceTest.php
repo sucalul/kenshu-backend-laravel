@@ -30,7 +30,7 @@ class ThumbnailServiceTest extends TestCase
         $file = UploadedFile::fake()->image('/tests/Files/test.jpeg');
         $this->request->merge([
             'id' => NULL,
-            'file' => ['upload_image' => $file]
+            'upload_image' => $file
         ]);
 
         $this->thumbnailService->execute(request: $this->request);

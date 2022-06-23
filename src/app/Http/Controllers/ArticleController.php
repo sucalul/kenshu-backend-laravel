@@ -65,15 +65,15 @@ class ArticleController extends Controller
     public function create(CreateArticleRequest $request)
     {
         list($resources, $thumbnail_resource) = $this->thumbnailService->execute($request);
-        $this->articleService->create(
-            user_id: $request->user()->id,
-            title: $request->get('title'),
-            body: $request->get('body'),
-            resources: $resources,
-            thumbnail_resource: $thumbnail_resource,
-            tags: $request->get('tags')
-        );
-        return redirect('/articles');
+        // $this->articleService->create(
+        //     user_id: $request->user()->id,
+        //     title: $request->get('title'),
+        //     body: $request->get('body'),
+        //     resources: $resources,
+        //     thumbnail_resource: $thumbnail_resource,
+        //     tags: $request->get('tags')
+        // );
+        // return redirect('/articles');
     }
 
     /**
