@@ -26,7 +26,7 @@ class ArticleServiceTest extends TestCase
         $this->unauthorized_user = $users[1];
     }
 
-    public function test_create_success()
+    public function testCreateSuccess()
     {
         $title = $this->faker->title();
         $body = $this->faker->text();
