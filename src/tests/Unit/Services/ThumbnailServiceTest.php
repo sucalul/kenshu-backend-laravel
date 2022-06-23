@@ -12,13 +12,11 @@ class ThumbnailServiceTest extends TestCase
 {
     use WithFaker;
 
-    private ThumbnailService $thumbnailService;
     private CreateArticleRequest $request;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->thumbnailService = app(ThumbnailService::class);
         $this->request = new CreateArticleRequest();
     }
 
