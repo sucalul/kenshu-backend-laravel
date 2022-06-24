@@ -24,7 +24,8 @@ Route::group(['middleware' => ['checkSignin']], function () {
     Route::post('/articles', [ArticleController::class, 'create']);
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit']);
     Route::patch('/articles/{id}', [ArticleController::class, 'update']);
-    Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
+    Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])
+        ->name('articles.destroy');;
 });
 
 
