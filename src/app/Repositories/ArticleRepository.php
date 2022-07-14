@@ -33,7 +33,12 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function findAll(): array
     {
         $articleList = array();
-        $articles = $this->articleModel::with('user', 'thumbnail_image', 'images', 'tags')->get()->sortBy('created_at');
+        $articles = $this->articleModel::with(
+            'user',
+            'thumbnail_image',
+            'images',
+            'tags'
+        )->get()->sortBy('created_at');
         foreach ($articles as $article) {
             $articleList[] = new ArticleEntity($article->toArray());
         }
